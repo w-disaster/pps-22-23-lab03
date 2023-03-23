@@ -15,14 +15,13 @@ object Lists extends App :
       case Cons(h, t) => h + sum(t)
       case _ => 0
 
-    def map[A, B](l: List[A])(mapper: A => B): List[B] = l match
-      case Cons(h, t) => Cons(mapper(h), map(t)(mapper))
-      case Nil() => Nil()
+    def map[A, B](l: List[A])(mapper: A => B): List[B] =
+      flatMap(l)(v => Cons(mapper(v), Nil()))
 
-    def filter[A](l1: List[A])(pred: A => Boolean): List[A] = l1 match
-      case Cons(h, t) if pred(h) => Cons(h, filter(t)(pred))
-      case Cons(_, t) => filter(t)(pred)
-      case Nil() => Nil()
+    def filter[A](l1: List[A])(pred: A => Boolean): List[A] =
+      flatMap(l1)(v => pred(v) match
+        case true => Cons(v, Nil())
+        case _ => Nil())
 
     // No behaviour specified when n <= 0
     @tailrec
