@@ -23,13 +23,14 @@ object Lists extends App :
       case Cons(h, t) if pred(h) => Cons(h, filter(t)(pred))
       case Cons(_, t) => filter(t)(pred)
       case Nil() => Nil()
-    
+
+    // No behaviour specified when n <= 0
     @tailrec
     def drop[A](l: List[A], n: Int): List[A] = l match
       case Cons(_, t) if n > 1 => drop(t, n - 1)
       case Cons(_, t) if n == 1 => t
-      case _ => Nil()
-
+      case Nil() => Nil()
+  
 
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
   println(List.sum(l)) // 60
